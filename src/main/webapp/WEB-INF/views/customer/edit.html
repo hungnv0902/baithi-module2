@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Edit Customer</h2>
+    <a href="/customers"><h3>List Customers</h3></a>
+    <th:block th:if="${message}">
+        <p th:text="${message}"></p>
+    </th:block>
+    <form  th:action="@{/edit-customer}" th:object="${customer}" method="post">
+        <div>
+            <input type="hidden" th:field="*{id}">
+        </div>
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" th:field="*{name}"/></td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+            </tr>
+
+            <tr>
+                <td>Email</td>
+                <td><input type="text" th:field="*{email}"/></td>
+                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
+            </tr>
+
+            <tr>
+                <td>PhoneNumber</td>
+                <td><input type="text" th:field="*{phoneNumber}"/></td>
+                <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">PhoneNumber Error</td>
+            </tr>
+
+            <tr>
+                <td>Age</td>
+                <td><input type="text" th:field="*{age}"/></td>
+                <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+            </tr>
+            <tr>
+                <td>Province:</td>
+                <td>
+                    <select th:field="*{province}">
+                        <option th:each="p : ${provinces}" th:value="${p.id}" th:text="${p.name}" th:selected="(${p.id} == *{province.id})"></option>
+                    </select>
+                </td>
+            </tr>
+
+        </table>
+        <button type="submit">Edit Customer</button>
+    </form>
+</body>
+</html>

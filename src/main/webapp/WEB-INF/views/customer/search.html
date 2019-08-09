@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<center>
+    <h2>Search Customer by Province</h2>
+
+    <br>
+    <br>
+    <a href="/customers"></a>
+    <table border="2px" width="400px">
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Phone Number</td>
+            <td>Age</td>
+            <td>Province</td>
+        </tr>
+
+        <tr th:each="customer,rowStat : ${customers}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.phoneNumber}"></td>
+            <td th:text="${customer.age}"></td>
+            <td th:text="${customer.province.name}"></td>
+        </tr>
+
+    </table>
+    <div>
+        <a th:href="@{'/search-customer'(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
+        <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
+        <a th:href="@{'/search-customer'(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+    </div>
+</center>
+
+</body>
+</html>

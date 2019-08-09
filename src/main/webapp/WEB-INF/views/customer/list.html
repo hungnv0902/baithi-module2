@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<center>
+    <h2>List Customer</h2>
+    <a href="/create-customer"><h3>Create New Customer</h3></a>
+    <br>
+    <br>
+    <a href="provinces"><h3>List Province</h3></a>
+    <br>
+    <br>
+    <form action="/search-customer" method="get">
+        <h3>Search by Province:</h3>
+        <select  name="province">
+            <option th:each="p : ${provinces}" th:value="${p.name}" th:text="${p.name}" ></option>
+        </select>
+        <input type="submit" value="Search"/>
+    </form><br/>
+    <h1>Customer List</h1>
+    <table border="2px" width="400px">
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Phone Number</td>
+            <td>Age</td>
+            <td>Province</td>
+            <td>Detail</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+
+        <tr th:each="customer,rowStat : ${customers}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.phoneNumber}"></td>
+            <td th:text="${customer.age}"></td>
+            <td th:text="${customer.province.name}"></td>
+            <td><a th:href="@{/view-customer/__${customer.id}__}">detail</a></td>
+            <td><a th:href="@{/edit-customer/__${customer.id}__}">edit</a></td>
+            <td><a th:href="@{/delete-customer/__${customer.id}__}">delete</a></td>
+        </tr>
+
+    </table>
+    <div>
+        <a th:href="@{'/customers'(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
+        <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
+        <a th:href="@{'/customers'(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+    </div>
+</center>
+
+</body>
+</html>
